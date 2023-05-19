@@ -14,7 +14,7 @@ function reducer(allTodos, action) {
                     ...allTodos,
                     {
                          id: Date.now(),
-                         todo: action.payload.newTodo,
+                         newTodo: action.payload.newTodo,
                          completed: false
                     }
                ]
@@ -42,14 +42,22 @@ function App() {
 
      const [newTodo, setNewTodo] = useState('')
 
+     const [err, setErr] = useState('')
+
      function handleChange(e) {
           setNewTodo(e.target.value)
      }
 
      function handleSubmit(e) {
           e.preventDefault()
-          dispatch({ type: ACTIONS.ADD_TODO, payload: { newTodo: newTodo } })
-          setNewTodo('')
+          if (newTodo.trim()) {
+               dispatch({ type: ACTIONS.ADD_TODO, payload: { newTodo: newTodo } })
+               setNewTodo('')
+               setErr('')
+          }
+          else {
+               setErr("Can't add empty todo")
+          }
      }
 
      return (
@@ -57,6 +65,7 @@ function App() {
                <form onSubmit={handleSubmit}>
                     <input type="text" onChange={handleChange} value={newTodo} />
                </form>
+               {err && <h3 style={{ color: 'red', fontSize: '12px' }}>{err}</h3>}
                {allTodos.map(todo => <Todo key={todo.id} todo={todo} dispatch={dispatch} />)}
           </div>
      )
