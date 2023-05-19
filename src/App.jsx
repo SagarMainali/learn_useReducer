@@ -1,8 +1,9 @@
 import React, { useReducer, useState } from 'react'
 import Todo from './Todo'
 
-const ACTIONS = {
-     ADD_TODO: 'add_todo'
+export const ACTIONS = {
+     ADD_TODO: 'add_todo',
+     COMPLETE_TODO: 'complete-todo',
 }
 
 function reducer(allTodos, action) {
@@ -16,6 +17,15 @@ function reducer(allTodos, action) {
                          completed: false
                     }
                ]
+          case ACTIONS.COMPLETE_TODO:
+               return allTodos.map(todo => {
+                    return todo.id === action.payload.id
+                         ? {
+                              ...todo,
+                              completed: !todo.completed
+                         }
+                         : todo
+               })
           default:
                return allTodos
      }
@@ -24,8 +34,6 @@ function reducer(allTodos, action) {
 function App() {
 
      const [allTodos, dispatch] = useReducer(reducer, [])
-
-     console.log(allTodos)
 
      const [newTodo, setNewTodo] = useState('')
 
@@ -40,11 +48,11 @@ function App() {
      }
 
      return (
-          <div className='todo-container'>
+          <div>
                <form onSubmit={handleSubmit}>
                     <input type="text" onChange={handleChange} value={newTodo} />
                </form>
-               {allTodos.map(todo => <Todo key={todo.id} {...todo} />)}
+               {allTodos.map(todo => <Todo key={todo.id} todo={todo} dispatch={dispatch} />)}
           </div>
      )
 }

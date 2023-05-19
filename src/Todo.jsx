@@ -1,15 +1,18 @@
 import React from 'react'
+import { ACTIONS } from './App'
 
-function Todo({ todo, completed }) {
+function Todo({ todo, dispatch }) {
 
      const style = {
-          backgroundColor: completed ? 'gray' : 'white'
+          backgroundColor: todo.completed ? 'gray' : 'white'
      }
 
      return (
           <div className='todo'>
-               <div className="mark" style={{ style }}></div>
-               <p>{todo}</p>
+               <div className="mark">
+                    <span className='circle' style={style} onClick={() => dispatch({ type: ACTIONS.COMPLETE_TODO, payload: { id: todo.id } })}></span>
+               </div>
+               <p>{todo.todo}</p>
           </div>
      )
 }
