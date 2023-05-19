@@ -4,6 +4,7 @@ import Todo from './Todo'
 export const ACTIONS = {
      ADD_TODO: 'add_todo',
      COMPLETE_TODO: 'complete-todo',
+     DEL_TODO: 'del-todo'
 }
 
 function reducer(allTodos, action) {
@@ -25,6 +26,10 @@ function reducer(allTodos, action) {
                               completed: !todo.completed
                          }
                          : todo
+               })
+          case ACTIONS.DEL_TODO:
+               return allTodos.filter(todo => {
+                    return todo.id !== action.payload.id
                })
           default:
                return allTodos
@@ -48,7 +53,7 @@ function App() {
      }
 
      return (
-          <div>
+          <div className='container'>
                <form onSubmit={handleSubmit}>
                     <input type="text" onChange={handleChange} value={newTodo} />
                </form>

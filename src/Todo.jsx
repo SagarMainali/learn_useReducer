@@ -13,6 +13,7 @@ function Todo({ todo, dispatch }) {
                     <span className='circle' style={style} onClick={() => dispatch({ type: ACTIONS.COMPLETE_TODO, payload: { id: todo.id } })}></span>
                </div>
                <p>{todo.todo}</p>
+               <h6 onClick={() => dispatch({ type: ACTIONS.DEL_TODO, payload: { id: todo.id } })}>DEL</h6>
           </div>
      )
 }
